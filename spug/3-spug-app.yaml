@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: spug-claim0
+  namespace: spug
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: spug-claim1
+  namespace: spug
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: spug
+  name: spug
+  namespace: spug
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spug
+  template:
+    metadata:
+      labels:
+        app: spug
+    spec:
+      containers:
+        - args:
+            - init_spug
+            - admin
+            - spug.dev
+          env:
+            - name: MYSQL_DATABASE
+              value: spug
+            - name: MYSQL_HOST
+              value: spug-db
+            - name: MYSQL_PASSWORD
+              value: spug.cc
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_USER
+              value: spug
+          image: openspug/spug-service
+          name: spug
+          ports:
+            - containerPort: 80
+          resources: {}
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /data/spug
+              name: spug-claim0
+            - mountPath: /data/repos
+              name: spug-claim1
+      volumes:
+        - name: spug-claim0
+          persistentVolumeClaim:
+            claimName: spug-claim0
+        - name: spug-claim1
+          persistentVolumeClaim:
+            claimName: spug-claim1
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spug-service
+  namespace: spug
+  labels:
+    app: spug
+spec:
+  ports:
+  - targetPort: 80
+    port: 80
+    nodePort: 41002
+  type: NodePort
+  selector:
+     app: spug
