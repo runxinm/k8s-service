@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solo
+  namespace: solo
+spec:
+  selector:
+    matchLabels:
+      app: solo
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: solo
+    spec:
+      containers:
+      - image: docker.io/b3log/solo:latest
+        imagePullPolicy: IfNotPresent
+        name: solo-pod
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+          name: solo-listin
+        volumeMounts:
+        - name: solo-conf
+          mountPath: /opt/solo/local.properties
+          subPath: local.properties 
+      volumes:
+      - name: solo-conf
+        configMap:
+          name: solo-conf
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: solo-service
+  namespace: solo
+  labels:
+    app: solo
+spec:
+  ports:
+  - targetPort: 8080
+    port: 8080
+    nodePort: 41001
+  type: NodePort
+  selector:
+     app: solo
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: solo-conf
+  namespace: solo
+data:
+  local.properties: |
+    runtimeDatabase=MYSQL
+    jdbc.username=root
+    jdbc.password=123456
+    jdbc.driver=com.mysql.cj.jdbc.Driver
+    jdbc.URL=jdbc:mysql://mysql-service:3306/solo?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    jdbc.minConnCnt=${JDBC_MIN_CONNS}
+    jdbc.maxConnCnt=${JDBC_MAX_CONNS}
+    jdbc.tablePrefix=${JDBC_TABLE_PREFIX}

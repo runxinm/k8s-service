@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: solo-claim-mysql
+  namespace: solo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: solo
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql:5.7
+        imagePullPolicy: IfNotPresent
+        name: mysql-pod
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "123456"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"          
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3306
+          name: msyql-listin
+        volumeMounts:
+        - name: mysql-data  
+          mountPath: /var/lib/mysql
+          subPath: mysql-data
+        - name: mysql-conf
+          mountPath: /etc/mysql/conf.d/my.cnf
+          subPath: my.cnf
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: solo-claim-mysql
+        - name: mysql-conf
+          configMap:
+            name: mysql-conf
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  namespace: solo
+  labels:
+    app: mysql
+spec:
+  ports:
+  - targetPort: 3306
+    port: 3306
+    nodePort: 30306
+  type: NodePort
+  selector:
+     app: mysql
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-conf
+  namespace: solo
+data:
+  my.cnf: |
+    [mysqld]
+    log-bin=mysql-bin
+    binlog_format=row
+    server-id=3
+    innodb_ft_cache_size=1600000
+    innodb_ft_total_cache_size=32000000
+    
+    # per thread or per operation settings
+    thread_stack=131072
+    sort_buffer_size=32K
+    read_buffer_size=8200
+    read_rnd_buffer_size=8200
+    max_heap_table_size=16K
+    tmp_table_size=1K
+    bulk_insert_buffer_size=0
+    join_buffer_size=128
+    net_buffer_length=1K
+    innodb_sort_buffer_size=64K
+    
+    #settings that relate to the binary log (if enabled)
+    binlog_cache_size=4K
+    binlog_stmt_cache_size=4K
+    
+    performance_schema = off
