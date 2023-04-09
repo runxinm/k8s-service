@@ -1,5 +1,9 @@
 # 目的
-收集一些可以基于k8s部署的项目
+一些可以基于k8s部署的项目。
+来源：
+- 从docker run 改变为 k8s的yaml，自行编写yaml文件。
+- 从docker-compose改变为k8s的yaml，修改kompose转换成的yaml文件。
+- 自己开发的小玩意
 
 # k8s-service-List
 

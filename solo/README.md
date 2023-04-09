@@ -1,3 +1,6 @@
+## 介绍
+solo 开源，方便/快速的搭建个人博客
+
 ## 注意事项
 除此使用时需要进入到mysql中，添加solo数据库 类似于下列命令
 create database solo

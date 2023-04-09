@@ -1,12 +1,10 @@
 ## 介绍
 使用 Python+Vue 实现的开源运维平台，前后端分离方便二次开发。该项目基于 Docker 镜像发布部署，方便安装和升级。支持运维常见功能：主机管理、任务计划管理、发布部署、监控告警等
-## 参考链接
-https://github.com/openspug/spug
-将官网从docker compose 方式部署改为使用 k8s方式
+[官网](https://github.com/openspug/spug)
+将官网的从docker compose 方式部署改为使用 k8s方式
 
 ## 要求
 k8s集群要有默认存储类,本集群使用 openebs
-
 
 ## 注意事项
 初次使用时，需要使用
@@ -37,6 +35,7 @@ Running migrations:
 
 之后可以使用admin  spug.dev进行登录,创建新的用户和角色
 
+## 各yaml文件作用和含义
 
 ## TODO
 初始化pod时直接初始化创建admin用户(目前通过在yaml文件中增加args项并没有成功进行初始化，需进一步排查原因)
