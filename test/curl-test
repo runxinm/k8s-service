@@ -1,6 +1,6 @@
-curl -H "Host: demo.localdev.me" 127.0.0.1:30080
-curl -H "Host: solo.localdev.me" 127.0.0.1:30080
-curl -H "Host: spug.localdev.me" 127.0.0.1:30080
+curl -H "Host: demo.test.me" 127.0.0.1:30080
+curl -H "Host: solo.test.me" 127.0.0.1:30080
+curl -H "Host: spug.test.me" 127.0.0.1:30080
 
 
 404的

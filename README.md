@@ -21,14 +21,14 @@ docker镜像
 --> 实现client无论通过哪个K8s节点的IP+端口都可以访问到后端pod
 
 服务暴露方式也说明了部署应用时的顺序:
-- 创建 namespace
-- (如果需要存储) 
+- 1-创建 namespace
+- 2-(如果需要存储) 
   - 创建存储PVC,指定存储的大小，访问方式（单节点读、多节点读、多节点读写）
   - 创建Configmap(存放配置信息，或者通过pod的环境变量方式传递信息，推荐使用前者)
-- 创建 要部署的pod的一些依赖，例如 其他pod(例如某些web需要使用mysql)
-- 创建 deployment(pod)  
-- 创建 service(clusterIP或者headless类型)
-- 创建 Ingress(指定ingressclass名称和规则)
+- 2-创建 要部署的pod的一些依赖，例如 其他pod(例如某些web需要使用mysql)
+- 3-创建 deployment(pod)  
+- 3-创建 service(clusterIP或者headless类型)
+- 4-创建 Ingress(指定ingressclass名称和规则)
 - 测试应用是否部署成功
 
 # k8s-service-List(Done)
@@ -94,7 +94,7 @@ docker镜像
 - [Nodejs](#)
   - 运行环境
 
-## 算网项目
+## 项目
 - templete
   - 模板提取
     - pvc.yaml     存储(目前只支持数据存储)

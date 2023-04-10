@@ -14,7 +14,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: solo.localdev.me
+  - host: solo.test.me
     http:
       paths:
       - backend:

@@ -14,7 +14,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: spug.localdev.me
+  - host: spug.test.me
     http:
       paths:
       - backend:
