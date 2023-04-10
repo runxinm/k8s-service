@@ -101,3 +101,6 @@ docker镜像
     - deployment.yaml   app
     - service.yaml   服务暴露
     - config.yaml (后期)
+- Tools
+  - 生成模板
+    - gen-yaml.go
