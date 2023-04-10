@@ -4,6 +4,7 @@
 - 从docker run 改变为 k8s的yaml，自行编写yaml文件。
 - 从docker-compose改变为k8s的yaml，修改kompose转换成的yaml文件。
 - 自己开发的
+
 目的：
   方便后续同学学习/使用/部署/迁移
   提取k8s部署应用所需的模板、流程
@@ -31,6 +32,7 @@ docker镜像
 - 测试应用是否部署成功
 
 # k8s-service-List(Done)
+
 - solo
   -  41001
   - 个人博客-支持静态和动态
@@ -38,9 +40,15 @@ docker镜像
   -  41002
   - 基于vue和python的运维平台，支持主机管理、监控告警等
 
+## 注意事项
+需要自行配置DNS解析到ingress-controller
 
 # TODO
 ## k8s-service-List(TODO)
+- [prometheus](#)
+  - prometheus监控组件，一系列监控指标 
+  - 在之前基础上 增加ingress服务暴露
+
 - [gitlab](#)
   - 代码仓库
 
@@ -81,10 +89,10 @@ docker镜像
   - 开源ChatGPT
 
 - [python3](#)
-  - 代码仓库
+  - 运行环境
   
 - [Nodejs](#)
-  - 代码仓库
+  - 运行环境
 
 ## 算网项目
 - templete
