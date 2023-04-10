@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {config-name}
+  namespace: {ns-name}
+data:
+  {key}: |
+  {value}
+# data 的 key 为配置子名称   内容为具体配置
+# 下面为示例
+--- 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-conf
+  namespace: solo
+data:
+  my.cnf: |
+    [mysqld]
+    log-bin=mysql-bin
+    binlog_format=row
+    server-id=3
+    innodb_ft_cache_size=1600000
+    innodb_ft_total_cache_size=32000000
+    
+    # per thread or per operation settings
+    thread_stack=131072
+    sort_buffer_size=32K
+    read_buffer_size=8200
+    read_rnd_buffer_size=8200
+    max_heap_table_size=16K
+    tmp_table_size=1K
+    bulk_insert_buffer_size=0
+    join_buffer_size=128
+    net_buffer_length=1K
+    innodb_sort_buffer_size=64K
+    
+    #settings that relate to the binary log (if enabled)
+    binlog_cache_size=4K
+    binlog_stmt_cache_size=4K
+    
+    performance_schema = off

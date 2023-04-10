@@ -1,0 +1,58 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {app-ingress-externalname}
+  namespace: ingress-nginx
+spec:
+  type: ExternalName
+  externalName: {svc-name}.{ns-name}.svc.cluster.local
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {ingress-name}
+  namespace: ingress-nginx
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: {domain-name}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {app-ingress-externalname}
+            port:
+              number: {expose-port-service}
+        path: /
+        pathType: Prefix
+
+
+# 下面是两个实例
+--- 
+kind: Service
+apiVersion: v1
+metadata:
+  name: spug
+  namespace: ingress-nginx
+spec:
+  type: ExternalName
+  externalName: spug-service.spug.svc.cluster.local
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spug
+  namespace: ingress-nginx
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: spug.test.me
+    http:
+      paths:
+      - backend:
+          service:
+            name: spug
+            port:
+              number: 80
+        path: /
+        pathType: Prefix

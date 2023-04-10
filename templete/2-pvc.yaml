@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {pvc-name}
+  namespace: {ns-name}
+spec:
+  accessModes:
+    - {ReadWriteOnce|ReadOnlyMany|ReadWriteMan|} # 3个可选
+  resources:
+    requests:
+      storage: {store-size}  # 存储空间大小
+  
+# 示例
+--- 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: solo-claim-mysql
+  namespace: solo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi

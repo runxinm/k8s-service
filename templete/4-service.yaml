@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {svc-name}
+  namespace: {ns-name}
+  labels:
+    app: {pod-name}
+spec:
+  ports:
+  - targetPort: {expose-port-pod} # pod控制器中定义的端口
+    port: {expose-port-service} # 服务访问端口 , 即服务的端口，添加到ingress规则是用的是这个端口
+  selector:
+     app: {pod-name}
+# 下面是两个实例
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: spug-service
+  namespace: spug
+  labels:
+    app: spug
+spec:
+  ports:
+  - targetPort: 80
+    port: 80
+  #   nodePort: 41002
+  # type: NodePort
+  selector:
+     app: spug
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: solo-service
+  namespace: solo
+  labels:
+    app: solo
+spec:
+  ports:
+  - targetPort: 8080
+    port: 8080
+  #   nodePort: 41001
+  # type: NodePort
+  selector:
+     app: solo

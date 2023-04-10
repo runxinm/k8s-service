@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {deploy-name}
+  name: {deploy-name}
+  namespace: {ns-name}
+spec:
+  replicas: {replicas-count}
+  selector:
+    matchLabels:
+      app: {deploy-name}
+  template:
+    metadata:
+      labels:
+        app: {pod-name}
+    spec:
+      containers:
+        - args:
+          {args-list-value}
+          env:
+            - name: {env-map-key}
+              value: {env-map-value}
+
+          image: {pod-image}
+          name: {pod-name}
+          ports:
+            - containerPort: {containerPort-list/map-value}
+          resources:
+            requests:
+              memory: "{requests[memory]}"
+              cpu: "{requests[cpu]}"
+            limits:
+              memory: "{limits[memory]}"
+              cpu: "{limits[cpu]"
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: {mountpath-list}
+              name: {pvc-name}
+      volumes:
+        - name: {pvc-name}
+          persistentVolumeClaim:
+            claimName: {pvc-name}
+
+# 下面是一个示例的yaml
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: spug
+  name: spug
+  namespace: spug
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spug
+  template:
+    metadata:
+      labels:
+        app: spug
+    spec:
+      containers:
+        - args:
+            - init_spug
+            - admin
+            - spug.dev
+          env:
+            - name: MYSQL_DATABASE
+              value: spug
+            - name: MYSQL_HOST
+              value: spug-db
+            - name: MYSQL_PASSWORD
+              value: spug.cc
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_USER
+              value: spug
+          image: openspug/spug-service
+          name: spug
+          ports:
+            - containerPort: 80
+          resources: {}
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /data/spug
+              name: spug-claim0
+            - mountPath: /data/repos
+              name: spug-claim1
+      volumes:
+        - name: spug-claim0
+          persistentVolumeClaim:
+            claimName: spug-claim0
+        - name: spug-claim1
+          persistentVolumeClaim:
+            claimName: spug-claim1
