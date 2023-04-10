@@ -1,8 +1,20 @@
 ## 介绍
 k8s 的 nginx-ingress 控制器
+nginx-ingress的暴露方式是NodePort，所以配置DNS解析时，可以绑定集群后面的所有（具有公网IP的）node节点的IP。
 - nginx-ingress控制器的启动
 - Ingress
 - 修改配置文件  使得其支持服务发现
+
+## 服务暴露路径
+前提是已经运行了ingress-nginx
+--> 后端pod(deployment)
+--> service 
+--> ingress规则 
+--> 写入到Ingress-nginx-controller配置文件并自动重载使更改生效 
+--> 对Ingress-nginx创建service(自建集群使用NodePort方式，云集群一般可以使用Loadbalance方式)
+--> 实现client无论通过哪个K8s节点的IP+端口都可以访问到后端pod
+
+服务暴露方式也说明了部署应用时应有的顺序
 
 ## Ingress注意事项
 修改service暴露方式,不能使用NodePort方式暴露，而是改用ClusterIP+ExternalName方式

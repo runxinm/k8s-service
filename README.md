@@ -1,12 +1,36 @@
-# 目的
+# 介绍
 一些可以基于k8s部署的项目。
 来源：
 - 从docker run 改变为 k8s的yaml，自行编写yaml文件。
 - 从docker-compose改变为k8s的yaml，修改kompose转换成的yaml文件。
-- 自己开发的小玩意
+- 自己开发的
+目的：
+  方便后续同学学习/使用/部署/迁移
+  提取k8s部署应用所需的模板、流程
+  
+# 服务暴露路径
+前提是已经运行了ingress-nginx、sc存储类(可以自行搭建NFS并创建sc，也可以借助openebs)
 
-# k8s-service-List
+docker镜像
+--> 后端pod(deployment)
+--> service 
+--> ingress规则 
+--> 写入到Ingress-nginx-controller配置文件并自动重载使更改生效 
+--> 对Ingress-nginx创建service(自建集群使用NodePort方式，云集群一般可以使用Loadbalance方式)
+--> 实现client无论通过哪个K8s节点的IP+端口都可以访问到后端pod
 
+服务暴露方式也说明了部署应用时的顺序:
+- 创建 namespace
+- (如果需要存储) 
+  - 创建存储PVC,指定存储的大小，访问方式（单节点读、多节点读、多节点读写）
+  - 创建Configmap(存放配置信息，或者通过pod的环境变量方式传递信息，推荐使用前者)
+- 创建 要部署的pod的一些依赖，例如 其他pod(例如某些web需要使用mysql)
+- 创建 deployment(pod)  
+- 创建 service(clusterIP或者headless类型)
+- 创建 Ingress(指定ingressclass名称和规则)
+- 测试应用是否部署成功
+
+# k8s-service-List(Done)
 - solo
   -  41001
   - 个人博客-支持静态和动态
@@ -16,6 +40,7 @@
 
 
 # TODO
+## k8s-service-List(TODO)
 - [gitlab](#)
   - 代码仓库
 
@@ -28,13 +53,13 @@
 - [homer](#)
   - 主页
 
-- seafile
+- [seafile](#)
   - 文件网盘
 
-- vaultwarden
+- [vaultwarden](#)
   - 密码管理
 
-- send
+- [send](#)
   - 另一个密码管理
 
 - [drone](https://github.com/drone/drone)
@@ -61,6 +86,7 @@
 - [Nodejs](#)
   - 代码仓库
 
+## 算网项目
 - templete
   - 模板提取
     - pvc.yaml     存储(目前只支持数据存储)
