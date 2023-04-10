@@ -19,6 +19,7 @@ docker run -itd  --name mysql-master \
 -e 参数给数据库赋值密码与用户
 -p 参数映射3306端口
 ```
+## 各yaml文件作用和含义
 
 ## 参考链接
 从docker迁移到k8s[solo博客](https://huaweicloud.csdn.net/63310f9cd3efff3090b50c87.html?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Eactivity-1-122017149-blog-128852169.235%5Ev27%5Epc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Eactivity-1-122017149-blog-128852169.235%5Ev27%5Epc_relevant_default&utm_relevant_index=2#devmenu8)

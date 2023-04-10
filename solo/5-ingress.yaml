@@ -1,0 +1,26 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: solo
+spec:
+  type: ExternalName
+  externalName: solo-service.solo.svc.cluster.local
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: solo
+  namespace: ingress-nginx
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: solo.localdev.me
+    http:
+      paths:
+      - backend:
+          service:
+            name: solo
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix

@@ -32,7 +32,7 @@ metadata:
   name: spug
   namespace: spug
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: spug
@@ -89,7 +89,7 @@ spec:
   ports:
   - targetPort: 80
     port: 80
-    nodePort: 41002
-  type: NodePort
+  #   nodePort: 41002
+  # type: NodePort
   selector:
      app: spug

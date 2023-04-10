@@ -1,12 +1,4 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/name: ingress-nginx
-  name: ingress-nginx
----
-apiVersion: v1
 automountServiceAccountToken: true
 kind: ServiceAccount
 metadata:
@@ -354,13 +346,11 @@ spec:
     port: 80
     protocol: TCP
     targetPort: http
-    nodePort: 30080
   - appProtocol: https
     name: https
     port: 443
     protocol: TCP
     targetPort: https
-    nodePort: 30433
   selector:
     app.kubernetes.io/component: controller
     app.kubernetes.io/instance: ingress-nginx
@@ -418,6 +408,7 @@ spec:
         app.kubernetes.io/part-of: ingress-nginx
         app.kubernetes.io/version: 1.7.0
     spec:
+      hostNetwork: true
       containers:
       - args:
         - /nginx-ingress-controller
@@ -462,9 +453,11 @@ spec:
         - containerPort: 80
           name: http
           protocol: TCP
+          hostPort: 80
         - containerPort: 443
           name: https
           protocol: TCP
+          hostPort: 443
         - containerPort: 8443
           name: webhook
           protocol: TCP
@@ -497,6 +490,7 @@ spec:
       dnsPolicy: ClusterFirst
       nodeSelector:
         kubernetes.io/os: linux
+        mynginx: "true"
       serviceAccountName: ingress-nginx
       terminationGracePeriodSeconds: 300
       volumes:
