@@ -17,7 +17,10 @@ spec:
     spec:
       containers:
         - args:
-          {args-list-value}
+          - {args-list-value-1}
+          - {args-list-value-2}
+          - {args-list-value-x}
+          ···
           env:
             - name: {env-map-key}
               value: {env-map-value}
