@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o ./k8syaml/
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: memos
+  name: memos
+spec:
+  ports:
+    - name: "5230"
+      port: 5230
+      nodePort: 40001
+      targetPort: 5230
+  type: NodePort
+  selector:
+    io.kompose.service: memos
+status:
+  loadBalancer: {}
