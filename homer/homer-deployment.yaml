@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o ./k8syaml/
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: homer
+  name: homer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: homer
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o ./k8syaml/
+        kompose.version: 1.28.0 (c4137012e)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/homer-default: "true"
+        io.kompose.service: homer
+    spec:
+      containers:
+        - image: b4bz/homer:latest
+          name: homer
+          ports:
+            - containerPort: 8080
+              hostIP: 127.0.0.1
+          resources: {}
+          volumeMounts:
+            - mountPath: /www/assets
+              name: homer-vol
+      restartPolicy: Always
+      volumes:
+        - name: homer-vol
+          hostPath:
+            path: /home/ubuntu/lct-service/services/docker/homer/assets
+      nodeName: m-k8s-fedc1
+status: {}
