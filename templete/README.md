@@ -49,18 +49,18 @@
 
 # 所需参数 (Input)
 
-
-- 用户名
+(以用户名进行命名空间的划分,不同的用户可能生成具有相同应用名称的app)
+- 用户名(自动获取)
   - 用户名称
     - 生成命名空间
-    - 标识应用归属
+    - 标识应用归属-定位应用
 
-- 应用名称
-  - deployment-name
+- 应用名称和资源(用户提供，或者生成类似uuid作为应用名称,最好是由用户提供)
+  - deployment-name(同时作为pod-name和pod-label的value)
   - pod信息(pod)
     - 镜像名称(pod-image)
-    - args-list (暂时省略)
-    - env-list (暂时省略)
+    <!-- - args-list (暂时省略) -->
+    <!-- - env-list (暂时省略) -->
     - containerPort(list) (容器需要暴露的端口 port)
       - 例如
         - mysql 服务需要/默认暴露 3306 端口，
@@ -70,6 +70,9 @@
     - resources( requests + limits )
     - mountPath(暂时省略)
 
-- (+域名)
-  - 用于配置7层负载均衡
-  - 无域名,则使用  svc-name.ns-name.svc.cluster.local
+
+- 服务暴露方式(+域名)
+  - 4种可选服务暴露方式,clusterIP(内部使用或者非http/https)/Nodeport(开发者无域名)/ingress(有域名，且是http/https)
+  - 域名用于配置 ingress 7层负载均衡
+  <!-- - 无域名,则使用  svc-name.ns-name.svc.cluster.local 作为默认域名 -->
+ 
