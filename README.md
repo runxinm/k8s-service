@@ -13,11 +13,17 @@
 前提是已经运行了ingress-nginx、sc存储类(可以自行搭建NFS并创建sc，也可以借助openebs)
 
 docker镜像
+
 --> 后端pod(deployment)
+
 --> service 
+
 --> ingress规则 
+
 --> 写入到Ingress-nginx-controller配置文件并自动重载使更改生效 
+
 --> 对Ingress-nginx创建service(自建集群使用NodePort方式，云集群一般可以使用Loadbalance方式)
+
 --> 实现client无论通过哪个K8s节点的IP+端口都可以访问到后端pod
 
 服务暴露方式也说明了部署应用时的顺序:
