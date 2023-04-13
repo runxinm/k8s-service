@@ -1,16 +1,42 @@
 package main
 
+import(
+	"fmt"
+	// "bytes"
+	// "text/template"
+
+	"CNCCTC/CNtemplate"
+)
+
+
+type Person struct {
+    Name string
+    Age  int
+}
+
+
 func main() {
-	nsYaml := generateNamespaceYaml("my-namespace")
-	DeploymentYaml := GenerateDeploymentYAML("my-deployment", "my-namespace", 3, "my-pod-image", "my-pod", "arg1 arg2 arg3", map[string]string{"ENV_KEY": "ENV_VALUE"}, []int{80, 443}, map[string]int{"http": 80, "https": 443}, map[string]string{"memory": "1Gi", "cpu": "1"}, map[string]string{"memory": "2Gi", "cpu": "2"}, []string{"/mnt/data"}, "my-pvc")
-	svcYaml := generateServiceYaml("my-namespace", "my-service", "my-pod", 8080, 80)
-	ingressYaml := generateIngressYaml("my-namespace", "my-ingress", "example.com", "my-app-ingress", 80)
+	data := Person{Name: "Alice", Age: 30}
+	tmpl := "name: {{.Name}}\nage: {{.Age}}\n"
+	result, err := CNtemplate.GenerateYAML(data, tmpl)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(result)
+	// nsYaml := CNtemplate.GenerateNamespaceYaml("my-namespace")
+	// fmt.Println(string(nsYaml))
+
+	DeploymentYaml,err := CNtemplate.GenerateDeploymentYAML("my-deployment", "my-namespace", 3, "my-pod-image", "my-pod", "arg1 arg2 arg3", map[string]string{"ENV_KEY": "ENV_VALUE"}, map[string]int{"http": 80, "https": 443}, map[string]string{"memory": "1Gi", "cpu": "1"}, map[string]string{"memory": "2Gi", "cpu": "2"}, []string{"/mnt/data"}, "my-pvc")
+	// fmt.Println(string(DeploymentYaml))
+	// fmt.Println(string(DeploymentYaml))
+
+	// svcYaml := CNtemplate.GenerateServiceYaml("my-namespace", "my-service", "my-pod", 8080, 80)
+	// fmt.Println(string(svcYaml))
+
+	// ingressYaml := CNtemplate.GenerateIngressYaml("my-namespace", "my-ingress", "example.com", "my-app-ingress", 80)
+	// fmt.Println(string(ingressYaml))
 
 	// 打印生成的 YAML
-	fmt.Println(string(nsYaml))
-	fmt.Println(string(DeploymentYaml))
-	fmt.Println(string(svcYaml))
-	fmt.Println(string(ingressYaml))
 
 	// // 将 YAML 字符串转换为 Go 结构体
 	// var namespace struct {
@@ -24,6 +50,6 @@ func main() {
 	// if err != nil {
 	// 	panic(err)
 	// }
-	// fmt.Printf("%+v\n", namespace)
+	fmt.Printf("%+v\n", DeploymentYaml)
 
 }
