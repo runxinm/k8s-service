@@ -39,6 +39,9 @@ docker镜像
 
 # k8s-service-List(Done)
 
+- cluster-ingress
+  - 负载均衡器，支持七层负载均衡
+
 - solo
   -  41001
   - 个人博客-支持静态和动态
