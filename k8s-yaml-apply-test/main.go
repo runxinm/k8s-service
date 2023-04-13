@@ -4,6 +4,10 @@ import(
 	"fmt"
 	// "bytes"
 	// "text/template"
+	"log"
+
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/tools/clientcmd"
 
 	"CNCCTC/CNtemplate"
 )
@@ -36,9 +40,9 @@ func main() {
 	// ingressYaml := CNtemplate.GenerateIngressYaml("my-namespace", "my-ingress", "example.com", "my-app-ingress", 80)
 	// fmt.Println(string(ingressYaml))
 
-	// 打印生成的 YAML
+	// 打印生成的 YAML 字符串
 
-	// // 将 YAML 字符串转换为 Go 结构体
+	// // TODO 1 - 将 YAML 字符串转换为 Go 结构体
 	// var namespace struct {
 	// 	ApiVersion string `yaml:"apiVersion"`
 	// 	Kind       string
@@ -51,5 +55,15 @@ func main() {
 	// 	panic(err)
 	// }
 	fmt.Printf("%+v\n", DeploymentYaml)
+
+	// // TODO 2 - 部署该yaml
+	// 
+	k8sconfig, err := clientcmd.BuildConfigFromFlags("", "./config.yaml")
+	if err != nil {
+		log.Fatal(err)   
+	}
+	K8sclient, _ := kubernetes.NewForConfig(k8sconfig)
+	fmt.Printf("%+v\n\t",K8sclient)
+
 
 }
