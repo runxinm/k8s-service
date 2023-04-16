@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-headless-svc
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+  clusterIP: None
+  selector:
+    app: nginx-headless
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-headless
+spec:
+  selector:
+    matchLabels:
+      app: nginx-headless
+  serviceName: nginx-headless-svc
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx-headless
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: "/usr/share/nginx/html"
+  volumeClaimTemplates:
+  - metadata:
+      name: html
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      # storageClassName: "nfs-storage"
+      resources:
+        requests:
+          storage: 10Mi
