@@ -39,6 +39,21 @@ docker镜像
 
 # k8s-service-List(Done)
 
+## 基础服务
+- nfs-sc
+  - 设置为默认存储类
+  - 动态创建PV
+
+- docker-registry
+  - 31001
+  - 私有docker镜像仓库(TODO增加用户权限)
+
+- cluster-ingress
+  - 30080/30443
+  - 基于nginx-ingress 负载均衡，服务暴露。
+  - nodeport暴露方式的一种替代，但并不完美，最好使用LB方式。
+
+## 应用
 - solo
   -  41001
   - 个人博客-支持静态和动态
