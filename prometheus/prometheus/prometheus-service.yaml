@@ -15,7 +15,9 @@ spec:
   - name: web
     port: 9090
     targetPort: web
-    nodePort: 32101
+    # nodePort: 32101
+    nodePort: 31002
+
   selector:
     app: prometheus
     app.kubernetes.io/component: prometheus

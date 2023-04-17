@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: vw
+  name: vw
+  namespace: vw
+spec:
+  selector:
+    matchLabels:
+      app: vw
+      # a: vw1
+  replicas: 3
+  # strategy:
+  #   type: Recreate
+  template:
+    metadata:
+      labels:
+        app: vw
+        # a: vw1
+    spec:
+      affinity:
+        podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - "vw"
+                namespaces:
+                  - "vw"
+                topologyKey: kubernetes.io/hostname            
+      containers:
+        - image: vaultwarden/server:latest
+          name: vw
+          ports:
+            - containerPort: 80
+              hostIP: 127.0.0.1
+            - containerPort: 3012
+              hostIP: 127.0.0.1
+          resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: vw-claim0
+      volumes:
+        - name: vw-claim0
+          persistentVolumeClaim:
+            claimName: vw-claim0
+          # volumeMounts:
+          #   - mountPath: /data
+          #     name: test-emptydir
+      # restartPolicy: Always
+      # volumes:          # 先创建一个volume，
+      # - name: test-emptydir
+      #   emptyDir:
+      #     sizeLimit: 50Mi
+status: {}

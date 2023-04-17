@@ -39,42 +39,64 @@ docker镜像
 
 # k8s-service-List(Done)
 
-## 基础服务
-- nfs-sc
+## 基础服务(核心)
+- nfs-sc(存储后端)
   - 设置为默认存储类
   - 动态创建PV
+  - ns:nfs-provisioner
+
+- openebs(另一种存储后端)
+  - 没有NFS时的简单替代
+  - 只支持 RWO 单节点
 
 - docker-registry
   - 31001
   - 私有docker镜像仓库(TODO增加用户权限)
+  - ns:docker-registry
+
+- Prometheus
+  - 31002
+  - Prometheus监控
+  - ns:monitoring
 
 - cluster-ingress
   - 30080/30443
   - 基于nginx-ingress 的负载均衡,支持七层负载均衡，服务暴露。
   - nodeport暴露方式的一种替代，但并不完美，最好使用LB方式。
+  - ns:ingress-nginx
 
 ## 应用
 - solo
-  -  41001
+  - 41001
   - 个人博客-支持静态和动态
+  - ns:solo
 - spug
   -  41002
   - 基于vue和python的运维平台，支持主机管理、监控告警等
+  - ns:spug
+- memos
+  - 41003
+  - 具有知识管理和社交功能的开源自托管备忘录中心
+  - ns:memos
+- vaultwarden
+  - 41004
+  - 密码管理
+  - ns:vw
 
 ## 注意事项
-需要自行配置DNS解析到ingress-controller
+如果使用ingress，需要自行配置DNS解析到ingress-controller
 
 # TODO
 ## k8s-service-List(TODO)
-- [prometheus](#)
+<!-- - [prometheus](#)
   - prometheus监控组件，一系列监控指标 
-  - 在之前基础上 增加ingress服务暴露
+  - 在之前基础上 增加ingress服务暴露 -->
 
 - [gitlab](#)
   - 代码仓库
 
-- [docker-register](#)
-  - docker私有仓库
+<!-- - [docker-register](#)
+  - docker私有仓库 -->
 
 - [openfaas](#)
   - faas平台
@@ -85,8 +107,8 @@ docker镜像
 - [seafile](#)
   - 文件网盘
 
-- [vaultwarden](#)
-  - 密码管理
+<!-- - [vaultwarden](#)
+  - 密码管理 -->
 
 - [send](#)
   - 另一个密码管理

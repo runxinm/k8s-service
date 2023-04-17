@@ -1,0 +1,76 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: local-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  storageClassName: openebs-hostpath
+  volumeMode: Filesystem
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: local-hostpath-pvc
+spec:
+  storageClassName: openebs-hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: local-volume-test
+  name: local-volume-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: local-volume-test
+  template:
+    metadata:
+      labels:
+        app: local-volume-test
+    spec:
+      containers:
+      - image: busybox
+        name: local-volume-test
+        imagePullPolicy: IfNotPresent
+        command: [ "/bin/sh", "-c", "while true; do sleep 600; echo $(date) $(hostname)>> /mnt/test/test.log; done" ]
+        volumeMounts:
+        - name: local-data
+          mountPath: /mnt/test
+      volumes:
+      - name: local-data
+        persistentVolumeClaim:
+          claimName: local-pvc
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-local-hostpath-pod
+spec:
+  volumes:
+  - name: local-storage
+    persistentVolumeClaim:
+      claimName: local-hostpath-pvc
+  containers:
+  - name: hello-container
+    image: busybox
+    command:
+       - sh
+       - -c
+       - 'while true; do echo "`date` [`hostname`] Hello from OpenEBS Local PV." >> /mnt/store/greet.txt; sleep $(($RANDOM % 5 + 300)); done'
+    volumeMounts:
+    - mountPath: /mnt/store
+      name: local-storage
