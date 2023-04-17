@@ -1,0 +1,17 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: redis-config
+  namespace: redis-single
+  labels:
+    app: redis-single
+data:
+  redis.conf: |-
+    dir /srv
+    port 6379
+    bind 0.0.0.0
+    appendonly yes
+    daemonize no
+    #protected-mode no
+    requirepass <密码>
+    pidfile /srv/redis-6379.pid

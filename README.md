@@ -59,6 +59,17 @@ docker镜像
   - Prometheus监控
   - ns:monitoring
 
+- redis-cluster
+  - 31003
+  - redis集群
+  - redis-cli -c -h 10.160.100.101 -p 31003
+
+- redis单节点
+  - 31004
+  - 单机模式的redis
+  - redis-cli -h 10.160.100.101 -p 31004
+  - auth password
+
 - cluster-ingress
   - 30080/30443
   - 基于nginx-ingress 的负载均衡,支持七层负载均衡，服务暴露。
@@ -100,6 +111,16 @@ docker镜像
 
 - [openfaas](#)
   - faas平台
+
+- [mysql](#)
+  - mysql数据库
+  - 存在一些bug
+
+- [ETCD](#)
+  - 数据库/注册中心
+
+<!-- - [redis](#)
+  - redis单节点 或 redis集群 -->
 
 - [homer](#)
   - 主页
