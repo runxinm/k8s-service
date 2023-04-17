@@ -1,1 +1,1 @@
-./k8s-yaml-gen/config.yaml
+k8s-yaml-apply-test/*.yaml

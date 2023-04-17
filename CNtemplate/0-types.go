@@ -1,5 +1,4 @@
-package main
-
+package CNtemplate
 
 type Namespace struct {
 	Name string

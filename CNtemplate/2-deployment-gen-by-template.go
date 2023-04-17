@@ -1,14 +1,36 @@
-package main
+package CNtemplate
 
 import (
+  "bytes"
 	"fmt"
-	"os"
+	// "os"
 	"text/template"
 )
 
+
+func GenerateYAML(data interface{}, tmpl string) (string, error) {
+  // 创建一个新的模板并解析模板字符串
+  t, err := template.New("mytemplate").Parse(tmpl)
+  if err != nil {
+      return "", err
+  }
+
+  // 创建一个缓冲区
+  var buf bytes.Buffer
+
+  // 填充数据到模板并将结果写入缓冲区
+  err = t.Execute(&buf, data)
+  if err != nil {
+      return "", err
+  }
+
+  // 将缓冲区中的内容转换为字符串并返回
+  return buf.String(), nil
+}
+
 // TODO
 // ArgsListValue修改
-func GenerateDeploymentYAML(deployName string, nsName string, replicasCount int, podImage string, podName string, argsListValue string, envMap map[string]string, containerPortList []int, containerPortMap map[string]int, requests map[string]string, limits map[string]string, mountPathList []string, pvcName string) error {
+func GenerateDeploymentYAML(deployName string, nsName string, replicasCount int, podImage string, podName string, argsListValue string, envMap map[string]string, containerPortMap map[string]int, requests map[string]string, limits map[string]string, mountPathList []string, pvcName string) (string, error) {
 	// Define the YAML template.
 	deploymentYAML := `
 apiVersion: apps/v1
@@ -31,21 +53,14 @@ spec:
       containers:
         - args:
           {{ .ArgsListValue }}
-          env:
-          {{ range $key, $value := .EnvMap }}
+          env: {{ range $key, $value := .EnvMap }}
             - name: {{ $key }}
-              value: {{ $value }}
-          {{ end }}
+              value: {{ $value }} {{ end }}
           image: {{ .PodImage }}
           name: {{ .PodName }}
-          ports:
-          {{ range $index, $value := .ContainerPortList }}
+          ports: {{ range $key, $value := .ContainerPortMap }}
             - containerPort: {{ $value }}
-          {{ end }}
-          {{ range $key, $value := .ContainerPortMap }}
-            - containerPort: {{ $value }}
-              name: {{ $key }}
-          {{ end }}
+              name: {{ $key }} {{ end }}
           resources:
             requests:
               memory: "{{ .Requests.Memory }}"
@@ -55,11 +70,9 @@ spec:
               cpu: "{{ .Limits.CPU }}"
           securityContext:
             privileged: true
-          volumeMounts:
-          {{ range $index, $value := .Mount[PathList](poe://www.poe.com/_api/key_phrase?phrase=PathList&prompt=Tell%20me%20more%20about%20PathList.) }}
+          volumeMounts:{{ range $index, $value := .MountPathList }}
             - mountPath: {{ $value }}
-              name: {{ .PVCName }}
-          {{ end }}
+              name: pvc-{{ $index }}{{ end }}
       volumes:
         - name: {{ .PVCName }}
           persistentVolumeClaim:
@@ -68,8 +81,10 @@ spec:
 
 	// Parse the template.
 	tmpl, err := template.New("deployment").Parse(deploymentYAML)
+  fmt.Println(err)
+  fmt.Println(tmpl)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	// Define the data to be passed to the template.
@@ -95,7 +110,7 @@ spec:
 		PodName:          podName,
 		ArgsListValue:    argsListValue,
 		EnvMap:           envMap,
-		ContainerPortList: containerPortList,
+		// ContainerPortList: containerPortList,
 		ContainerPortMap: containerPortMap,
 		Requests:         requests,
 		Limits:           limits,
@@ -103,59 +118,20 @@ spec:
 		PVCName:          pvcName,
 	}
 
-	// Execute the template with the data and print the output.
-	err = tmpl.Execute(os.Stdout, data)
+	// Execute the template with the data.
+  
+  // 创建一个缓冲区
+  var buf bytes.Buffer
+
+	err = tmpl.Execute(&buf, data)
+  fmt.Println(tmpl)
 	if err != nil {
-		return err
+		return "", err
 	}
-	return nil
+	return buf.String(), nil
 }
 
 // 这将生成以下 YAML 文件：
 /*
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: my-deployment
-  name: my-deployment
-  namespace: my-namespace
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: my-deployment
-  template:
-    metadata:
-      labels:
-        app: my-pod
-		spec:
-      containers:
-        - args:
-          arg1 arg2 arg3
-          env:
-            - name: ENV_KEY
-              value: ENV_VALUE
-          image: my-pod-image
-          name: my-pod
-          ports:
-            - containerPort: 80
-            - containerPort: 443
-              name: https
-          resources:
-            requests:
-              memory: "1Gi"
-              cpu: "1"
-            limits:
-              memory: "2Gi"
-              cpu: "2"
-          securityContext:
-            privileged: true
-          volumeMounts:
-            - mountPath: /mnt/data
-              name: my-pvc
-      volumes:
-        - name: my-pvc
-          persistentVolumeClaim:
-            claimName: my-pvc
+
 			*/

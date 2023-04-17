@@ -50,7 +50,7 @@ docker镜像
 
 - cluster-ingress
   - 30080/30443
-  - 基于nginx-ingress 负载均衡，服务暴露。
+  - 基于nginx-ingress 的负载均衡,支持七层负载均衡，服务暴露。
   - nodeport暴露方式的一种替代，但并不完美，最好使用LB方式。
 
 ## 应用
