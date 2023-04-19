@@ -75,4 +75,17 @@
   - 4种可选服务暴露方式,clusterIP(内部使用或者非http/https)/Nodeport(开发者无域名)/ingress(有域名，且是http/https)
   - 域名用于配置 ingress 7层负载均衡
   <!-- - 无域名,则使用  svc-name.ns-name.svc.cluster.local 作为默认域名 -->
+- service的三种端口
+  - port
+service暴露在cluster ip上的端口，:port 是提供给集群内部客户访问service的入口。
+
+  - nodePort
+nodePort是k8s提供给集群外部客户访问service入口的一种方式，:nodePort 是提供给集群外部客户访问service的入口。
+
+  - targetPort
+targetPort是pod上的端口，从port和nodePort上到来的数据最终经过kube-proxy流入到后端pod的targetPort上进入容器。
+
+  - 总结
+总的来说，port和nodePort都是service的端口，前者暴露给集群内客户访问服务，后者暴露给集群外客户访问服务。从这两个端口到来的数据都需要经过反向代理kube-proxy流入后端pod的targetPod，从而到达pod上的容器内。
+
  

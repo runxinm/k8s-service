@@ -332,7 +332,7 @@ func deleteResource(clientset *kubernetes.Clientset) {
 	namespace:="default"
 	clientset.AppsV1().Deployments(namespace).Delete(context.TODO(),name, metaV1.DeleteOptions{})
 	clientset.CoreV1().Services(namespace).Delete(context.TODO(),servicename,metaV1.DeleteOptions{})
-	//clienset.ExtensionsV1beta1().Ingress()
+	//clientset.ExtensionsV1beta1().Ingress()
 	fmt.Println("delete Finish")
 	fmt.Println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
 }
