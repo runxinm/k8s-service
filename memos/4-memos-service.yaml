@@ -7,8 +7,8 @@ metadata:
     app: memos
 spec:
   ports:
-  - targetPort: 5230
-    port: 5230
+  - targetPort: 5230 # pod中的
+    port: 5230 # service的
     nodePort: 41003
   type: NodePort
   selector:

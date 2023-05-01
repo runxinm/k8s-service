@@ -39,63 +39,78 @@ docker镜像
 
 # k8s-service-List(Done)
 
-## 基础服务(核心)
-- nfs-sc(存储后端)
+## 31xxx基础服务(核心)
+- [nfs-sc(存储后端)](./nfs-sc/)
   - 设置为默认存储类
   - 动态创建PV
   - ns:nfs-provisioner
 
-- openebs(另一种存储后端)
+- [openebs(另一种存储后端)](./openebs/)
   - 没有NFS时的简单替代
   - 只支持 RWO 单节点
 
-- docker-registry
+- [docker-registry](./docker-registry/)
   - 31001
   - 私有docker镜像仓库(TODO增加用户权限)
   - ns:docker-registry
 
-- Prometheus
+- [Prometheus](./prometheus/)
   - 31002
   - Prometheus监控
   - ns:monitoring
 
-- redis-cluster
+- [redis-cluster](./redis-cluster/)
   - 31003
   - redis集群
   - redis-cli -c -h 10.160.100.101 -p 31003
 
-- redis单节点
+- [redis单节点](./redis-single/)
   - 31004
   - 单机模式的redis
   - redis-cli -h 10.160.100.101 -p 31004
   - auth password
 
-- cluster-ingress
+- [cluster-ingress](./cluster-ingress/)
   - 30080/30443
   - 基于nginx-ingress 的负载均衡,支持七层负载均衡，服务暴露。
   - nodeport暴露方式的一种替代，但并不完美，最好使用LB方式。
   - ns:ingress-nginx
 
-## 应用
-- solo
+## 41xxx应用
+- [solo](./solo/)
   - 41001
   - 个人博客-支持静态和动态
   - ns:solo
-- spug
+- [spug](./spug/)
   -  41002
   - 基于vue和python的运维平台，支持主机管理、监控告警等
   - ns:spug
-- memos
+- [memos](./memos/)
   - 41003
   - 具有知识管理和社交功能的开源自托管备忘录中心
   - ns:memos
-- vaultwarden
+- [vaultwarden](./vaultwarden/)
   - 41004
   - 密码管理
   - ns:vw
+- [vocechat](./vocechat/)
+  - 41005
+  - 个人云社交媒体聊天服务
+  - ns:vocechat
+- [aria2](./aria2/)
+  - 41006
+  - 下载文件
+  - ns:aria2
 
 ## 注意事项
 如果使用ingress，需要自行配置DNS解析到ingress-controller
+
+# docker-service
+- [Cmaus群组视频聊天](./docker-version/camus.yaml)
+- [Zdir文件共享](./docker-version/zdir.yaml)
+- []()
+- []()
+
 
 # TODO
 ## k8s-service-List(TODO)
