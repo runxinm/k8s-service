@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: memos-service
+  namespace: memos
+  labels:
+    app: memos
+spec:
+  ports:
+  - targetPort: 5230 # pod中的
+    port: 5230 # service的
+    nodePort: 41003
+  type: NodePort
+  selector:
+     app: memos

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memos
+  namespace: memos
+  labels:
+    app: memos
+spec:
+  selector:
+    matchLabels:
+      app: memos
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: memos
+    spec:
+      containers:
+        - image: neosmemo/memos:latest
+          imagePullPolicy: IfNotPresent
+          name: memos
+          resources: 
+            requests:
+              memory: "64Mi"
+              cpu: "200m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"          
+          ports:
+            - containerPort: 5230
+              name: memos-listin
+          volumeMounts:
+            - mountPath: /var/opt/memos
+              name: memos-claim0
+      volumes:
+        - name: memos-claim0
+          persistentVolumeClaim:
+            claimName: memos-claim0

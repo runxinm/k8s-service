@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vocechat
+  namespace: vocechat
+  labels:
+    app: vocechat
+spec:
+  selector:
+    matchLabels:
+      app: vocechat
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vocechat
+    spec:
+      containers:
+        - image: privoce/vocechat-server:latest
+          imagePullPolicy: IfNotPresent
+          name: vocechat
+          resources: 
+            requests:
+              memory: "64Mi"
+              cpu: "200m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+              name: vocechat-listin
+          volumeMounts:
+            - mountPath: /home/vocechat-server/data
+              name: vocechat-claim0
+      volumes:
+        - name: vocechat-claim0
+          persistentVolumeClaim:
+            claimName: vocechat-claim0

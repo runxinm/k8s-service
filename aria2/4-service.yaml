@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aria2-service
+  namespace: aria2
+  labels:
+    app: aria2
+spec:
+  ports:
+  - targetPort: 80 # pod中的
+    port: 80 # service的
+    nodePort: 41006
+  type: NodePort
+  selector:
+     app: aria2

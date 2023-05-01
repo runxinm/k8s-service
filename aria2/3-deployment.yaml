@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aria2
+  namespace: aria2
+  labels:
+    app: aria2
+spec:
+  selector:
+    matchLabels:
+      app: aria2
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: aria2
+    spec:
+      containers:
+        - image: wahyd4/aria2-ui
+          imagePullPolicy: IfNotPresent
+          name: aria2
+          resources: 
+            requests:
+              memory: "512Mi"
+              cpu: "1000m"
+            limits:
+              memory: "1024Mi"
+              cpu: "2000m"      
+          ports:
+            - containerPort: 80
+              name: aria2-listin
+          volumeMounts:
+            - mountPath: /data
+              name: aria2-claim0
+      volumes:
+        - name: aria2-claim0
+          persistentVolumeClaim:
+            claimName: aria2-claim0
