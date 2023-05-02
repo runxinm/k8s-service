@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homer
+  namespace: homer
+  labels:
+    app: homer
+spec:
+  selector:
+    matchLabels:
+      app: homer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: homer
+    spec:
+      containers:
+        - image: b4bz/homer:latest
+          imagePullPolicy: IfNotPresent
+          name: homer
+          resources: 
+            requests:
+              memory: "64Mi"
+              cpu: "200m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"          
+          ports:
+            - containerPort: 8080
+              name: homer-listin
+          volumeMounts:
+            - mountPath: /www/assets
+              name: homer-claim0
+      volumes:
+        - name: homer-claim0
+          persistentVolumeClaim:
+            claimName: homer-claim0

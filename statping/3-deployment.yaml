@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: statping
+  namespace: statping
+  labels:
+    app: statping
+spec:
+  selector:
+    matchLabels:
+      app: statping
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: statping
+    spec:
+      containers:
+        - image: adamboutcher/statping-ng
+          imagePullPolicy: IfNotPresent
+          name: statping
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "256m"
+            limits:
+              memory: "512Mi"
+              cpu: "512m"          
+          ports:
+            - containerPort: 8080
+              name: statping

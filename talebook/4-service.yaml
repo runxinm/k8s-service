@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: talebook-service
+  namespace: talebook
+  labels:
+    app: talebook
+spec:
+  ports:
+  - targetPort: 80 # pod中的
+    port: 80 # service的
+    nodePort: 41011
+  type: NodePort
+  selector:
+     app: talebook

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless-ngx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paperless-ngx
+  template:
+    metadata:
+      labels:
+        app: paperless-ngx
+    spec:
+      containers:
+      - name: paperless-ngx
+        image: linuxserver/paperless-ngx:latest
+        env:
+        - name: PUID
+          value: "1026"
+        - name: PGID
+          value: "101"
+        - name: TZ
+          value: "Asia/Shanghai"
+        - name: REDIS_URL
+          value: "" # 可选，将<your-redis-url>替换为您的Redis URL
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: config
+        hostPath:
+          path: /host/path/to/config # 将/host/path/to/config替换为您的主机上的配置文件路径
+      - name: data
+        hostPath:
+          path: /host/path/to/data # 将/host/path/to/data替换为您的主机上的数据文件路径

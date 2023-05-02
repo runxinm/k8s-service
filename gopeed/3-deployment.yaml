@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gopeed
+  namespace: gopeed
+  labels:
+    app: gopeed
+spec:
+  selector:
+    matchLabels:
+      app: gopeed
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gopeed
+    spec:
+      containers:
+        - image: liwei2633/gopeed
+          imagePullPolicy: IfNotPresent
+          name: gopeed
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "256m"
+            limits:
+              memory: "512Mi"
+              cpu: "512m"          
+          ports:
+            - containerPort: 9999
+              name: gopeed             
+          volumeMounts:
+            - mountPath: /download
+              name: gopeed-claim0
+      volumes:
+        - name: gopeed-claim0
+          persistentVolumeClaim:
+            claimName: gopeed-claim0

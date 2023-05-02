@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: speedtest-service
+  namespace: speedtest
+  labels:
+    app: speedtest
+spec:
+  ports:
+  - targetPort: 80 # pod中的
+    port: 80 # service的
+    nodePort: 41013
+  type: NodePort
+  selector:
+     app: speedtest

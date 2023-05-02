@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: talebook
+  namespace: talebook
+  labels:
+    app: talebook
+spec:
+  selector:
+    matchLabels:
+      app: talebook
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: talebook
+    spec:
+      containers:
+        - image: talebook/talebook:latest
+          imagePullPolicy: IfNotPresent
+          name: talebook
+          resources: 
+            requests:
+              memory: "128Mi"
+              cpu: "256m"
+            limits:
+              memory: "1024Mi"
+              cpu: "512m"          
+          ports:
+            - containerPort: 80
+              name: talebook
+          volumeMounts:
+            - mountPath: /data
+              name: talebook-claim0             
+      volumes:
+        - name: talebook-claim0
+          persistentVolumeClaim:
+            claimName: talebook-claim0

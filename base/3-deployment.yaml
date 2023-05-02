@@ -22,13 +22,16 @@ spec:
           resources: 
             requests:
               memory: "64Mi"
-              cpu: "200m"
+              cpu: "256m"
             limits:
               memory: "128Mi"
-              cpu: "500m"          
+              cpu: "512m"          
           ports:
             - containerPort: 5230
               name: memos-listin
+          env:
+            - name: TRILIUM_DATA_DIR
+              value: /root/trilium-data               
           volumeMounts:
             - mountPath: /var/opt/memos
               name: memos-claim0

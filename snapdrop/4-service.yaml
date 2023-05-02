@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: snapdrop-service
+  namespace: snapdrop
+  labels:
+    app: snapdrop
+spec:
+  ports:
+  - targetPort: 80 # pod中的
+    port: 80 # service的
+    nodePort: 41018
+  type: NodePort
+  selector:
+     app: snapdrop

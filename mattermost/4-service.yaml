@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mattermost-service
+  namespace: mattermost
+  labels:
+    app: mattermost
+spec:
+  ports:
+  - targetPort: 8065 # pod中的
+    port: 8065 # service的
+    nodePort: 41009
+  type: NodePort
+  selector:
+     app: mattermost

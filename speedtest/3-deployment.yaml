@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: speedtest
+  namespace: speedtest
+  labels:
+    app: speedtest
+spec:
+  selector:
+    matchLabels:
+      app: speedtest
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: speedtest
+    spec:
+      containers:
+        - image: henrywhitaker3/speedtest-tracker
+          imagePullPolicy: IfNotPresent
+          name: speedtest
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "512m"
+            limits:
+              memory: "512Mi"
+              cpu: "1024m"         
+          ports:
+            - containerPort: 80
+              name: speedtest
+          env:
+            - name: OOKLA_EULA_GDPR
+              value: "true"      
+          volumeMounts:
+            - mountPath: /config
+              name: speedtest-claim0
+      volumes:
+        - name: speedtest-claim0
+          persistentVolumeClaim:
+            claimName: speedtest-claim0

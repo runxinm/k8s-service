@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trilium
+  namespace: trilium
+  labels:
+    app: trilium
+spec:
+  selector:
+    matchLabels:
+      app: trilium
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: trilium
+    spec:
+      containers:
+        - image: nriver/trilium-cn
+          imagePullPolicy: IfNotPresent
+          name: trilium
+          resources: 
+            requests:
+              memory: "128Mi"
+              cpu: "256m"
+            limits:
+              memory: "1024Mi"
+              cpu: "512m"          
+          ports:
+            - containerPort: 8080
+              name: trilium
+          env:
+            - name: TRILIUM_DATA_DIR
+              value: /root/trilium-data              
+          volumeMounts:
+            - mountPath: /root/trilium-data
+              name: trilium-claim0             
+      volumes:
+        - name: trilium-claim0
+          persistentVolumeClaim:
+            claimName: trilium-claim0

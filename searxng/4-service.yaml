@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: searxng-service
+  namespace: searxng
+  labels:
+    app: searxng
+spec:
+  ports:
+  - targetPort: 8080  # pod中的
+    port: 8080  # service的
+    nodePort: 41017
+  type: NodePort
+  selector:
+     app: searxng

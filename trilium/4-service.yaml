@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trilium-service
+  namespace: trilium
+  labels:
+    app: trilium
+spec:
+  ports:
+  - targetPort: 8080 # pod中的
+    port: 8080 # service的
+    nodePort: 41012
+  type: NodePort
+  selector:
+     app: trilium

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snapdrop
+  namespace: snapdrop
+  labels:
+    app: snapdrop
+spec:
+  selector:
+    matchLabels:
+      app: snapdrop
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: snapdrop
+    spec:
+      containers:
+        - image: linuxserver/snapdrop:latest
+          imagePullPolicy: IfNotPresent
+          name: snapdrop
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "256m"
+            limits:
+              memory: "1024Mi"
+              cpu: "512m"          
+          ports:
+            - containerPort: 80
+              name: snapdrop
+          env:
+            - name: PUID
+              value: "1026"            
+            - name: PGID
+              value: "101" 
+            - name: TZ
+              value: "Asia/Shanghai"             
+          volumeMounts:
+            - mountPath: /config
+              name: snapdrop-claim0
+      volumes:
+        - name: snapdrop-claim0
+          persistentVolumeClaim:
+            claimName: snapdrop-claim0

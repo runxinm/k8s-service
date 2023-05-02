@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heimdall
+  namespace: heimdall
+  labels:
+    app: heimdall
+spec:
+  selector:
+    matchLabels:
+      app: heimdall
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: heimdall
+    spec:
+      containers:
+        - image: linuxserver/heimdall:latest
+          imagePullPolicy: IfNotPresent
+          name: heimdall
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "256m"
+            limits:
+              memory: "512Mi"
+              cpu: "512m"          
+          ports:
+            - containerPort: 80
+              name: heimdall-1
+            - containerPort: 443
+              name: heimdall-2              
+          env:
+            - name: PUID
+              value: "1026"            
+            - name: PGID
+              value: "100" 
+            - name: TZ
+              value: "Asia/Shanghai"                                                   
+          volumeMounts:
+            - mountPath: /config
+              name: heimdall-claim0
+      volumes:
+        - name: heimdall-claim0
+          persistentVolumeClaim:
+            claimName: heimdall-claim0

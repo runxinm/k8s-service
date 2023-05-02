@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: excalidraw
+  namespace: excalidraw
+  labels:
+    app: excalidraw
+spec:
+  selector:
+    matchLabels:
+      app: excalidraw
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: excalidraw
+    spec:
+      containers:
+        - image: excalidraw/excalidraw:latest
+          imagePullPolicy: IfNotPresent
+          name: excalidraw
+          resources: 
+            requests:
+              memory: "64Mi"
+              cpu: "256m"
+            limits:
+              memory: "128Mi"
+              cpu: "512m"          
+          ports:
+            - containerPort: 80
+              name: excalidraw

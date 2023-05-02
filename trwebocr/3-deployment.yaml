@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trwebocr
+  namespace: trwebocr
+  labels:
+    app: trwebocr
+spec:
+  selector:
+    matchLabels:
+      app: trwebocr
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: trwebocr
+    spec:
+      containers:
+        - image: mmmz/trwebocr:latest
+          imagePullPolicy: IfNotPresent
+          name: trwebocr
+          resources: 
+            requests:
+              memory: "512Mi"
+              cpu: "512m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1024m"          
+          ports:
+            - containerPort: 8089
+              name: trwebocr-listin

@@ -101,6 +101,78 @@ docker镜像
   - 41006
   - 下载文件
   - ns:aria2
+- [homer](./homer/)
+  - 41007
+  - 静态主页
+  - ns:homer
+- [trwebocr](./trwebocr/)
+  - 41008
+  - 离线中文ocr
+  - ns:trwebocr
+- [mattermost](./mattermost/)
+  - 41009
+  - 项目管理，团队协作
+  - ns:mattermost
+- [pdftoolbox](./pdftoolbox/)
+  - 41010
+  - PDF工具箱，压缩和ocr
+  - ns:pdftoolbox
+- [talebook](./talebook/)
+  - 41011
+  - 个人图书管理,在线阅读
+  - ns:talebook
+- [trilium](./trilium/)
+  - 41012
+  - 分层笔记，搭建个人知识库
+  - ns:trilium
+- [speedtest](./speedtest/)
+  - 41013
+  - 定期运行测速测试,帮助了解网络速度和稳定性
+  - ns:speedtest
+- [excalidraw](./excalidraw/)
+  - 41014
+  - 绘制手绘图的虚拟白板工具
+  - ns:excalidra
+- [gopeed](./gopeed/)
+  - 41015
+  - 一个高速下载器,支持 HTTP、BitTorrent、Magnet
+  - ns:gopeed
+- [heimdall](./heimdall/)
+  - 41016(http)/44016(https)
+  - 导航页 Application Dashboard 
+  - ns:heimdall
+- [**searxng**](./searxng/)
+  - 41017
+  - 元搜索引擎 Privacy-respecting, hackable metasearch engine
+  - ns:searxng
+- [snapdrop](./snapdrop/)
+  - 41018
+  - 局域网文件共享
+  - ns:snapdrop
+- [tachidesk](./tachidesk/)
+  - 41019
+  - 免费、开源的阅读器服务器
+  - ns:tachidesk
+- [statping](./statping/)
+  - 41020
+  - web监控,网站和应用程序状态
+  - ns:statping
+- []()
+  - 4102
+  - 1
+  - ns:
+- []()
+  - 4102
+  - 1
+  - ns:
+- []()
+  - 4102
+  - 1
+  - ns:
+- []()
+  - 4102
+  - 1
+  - ns:
 
 ## 注意事项
 如果使用ingress，需要自行配置DNS解析到ingress-controller
@@ -108,7 +180,7 @@ docker镜像
 # docker-service
 - [Cmaus群组视频聊天](./docker-version/camus.yaml)
 - [Zdir文件共享](./docker-version/zdir.yaml)
-- []()
+- [Paperless-ngx文档管理系统](./docker-version/paperless-ngx.yaml)
 - []()
 
 
@@ -137,8 +209,8 @@ docker镜像
 <!-- - [redis](#)
   - redis单节点 或 redis集群 -->
 
-- [homer](#)
-  - 主页
+<!-- - [homer](#)
+  - 主页 -->
 
 - [seafile](#)
   - 文件网盘

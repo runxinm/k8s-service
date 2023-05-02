@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tachidesk-service
+  namespace: tachidesk
+  labels:
+    app: tachidesk
+spec:
+  ports:
+  - targetPort: 4567 # pod中的
+    port: 4567 # service的
+    nodePort: 41019
+  type: NodePort
+  selector:
+     app: tachidesk

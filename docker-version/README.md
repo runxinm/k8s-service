@@ -2,7 +2,7 @@
 ### 1.Camus
 Camus 是一个群组视频聊天应用程序，它使用 WebRTC 进行直接的点对点通信。用户可以创建和加入房间、使用麦克风和网络摄像头传输音频和视频、共享屏幕以及发送短信.
 
-`docker run -d -p 50001:5000 camuschat/camus:latest`
+```docker run -d -p 50001:5000 camuschat/camus:latest```
 
 仅需要映射端口，但界面相对来说简陋，使用体验不好，已经两年未更新。
 
@@ -13,11 +13,21 @@ Camus 是一个群组视频聊天应用程序，它使用 WebRTC 进行直接的
 ### 2.Zdir
 使用Golang + Vue3开发的轻量级目录列表程序，支持Linux、Docker、Windows部署，支持视频、音频、代码等常规文件预览，适合个人或初创公司文件分享使用，亦可作为轻量级网盘使用
 
-`docker run -d --name="zdir" -v /volume1/docker/zdir:/data/apps/zdir/data -v /volume1/docker/zdir:/data/apps/zdir/data/public -p 50002:6080 --restart=always helloz/zdir:latest`
+```docker run -d --name="zdir" -v /volume1/docker/zdir:/data/apps/zdir/data -v /volume1/docker/zdir:/data/apps/zdir/data/public -p 50002:6080 --restart=always helloz/zdir:latest```
 
 - [pod.yaml](./zdir.yaml) (使用主机目录)
 
 [开源代码](https://github.com/helloxz/zdir)
 
 
-### 3.
+### 3.Paperless-ngx
+文档管理系统。
+目前部署还有些bug。可能是redis_URL环境变量 问题
+
+```
+docker run -d --name paperless-ngx -e PUID=1026 -e PGID=101 -e TZ=Asia/Shanghai -e REDIS_URL="" -p 9765:8000 -v D:\docker-pro\paperless:/config -v D:\docker-pro\paperless:/data linuxserver/paperless-ngx:latest
+```
+
+[官网](https://github.com/paperless-ngx/paperless-ngx)
+
+- [deployment.yaml](./paperless-ngx.yaml)

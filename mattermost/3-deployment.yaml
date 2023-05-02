@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mattermost
+  namespace: mattermost
+  labels:
+    app: mattermost
+spec:
+  selector:
+    matchLabels:
+      app: mattermost
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mattermost
+    spec:
+      containers:
+        - image: mattermost/mattermost-preview
+          imagePullPolicy: IfNotPresent
+          name: mattermost
+          resources: 
+            requests:
+              memory: "512Mi"
+              cpu: "512m"
+            limits:
+              memory: "1048Mi"
+              cpu: "1024m"          
+          ports:
+            - containerPort: 8065
+              name: mattermost

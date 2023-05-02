@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tachidesk
+  namespace: tachidesk
+  labels:
+    app: tachidesk
+spec:
+  selector:
+    matchLabels:
+      app: tachidesk
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tachidesk
+    spec:
+      containers:
+        - image: ghcr.dockerproxy.com/suwayomi/tachidesk:latest
+          imagePullPolicy: IfNotPresent
+          name: tachidesk
+          resources: 
+            requests:
+              memory: "512Mi"
+              cpu: "512m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1024m"          
+          ports:
+            - containerPort: 4567
+              name: tachidesk
+          env:
+            - name: TZ
+              value: Asia/Shanghai               
+          volumeMounts:
+            - mountPath: /home/suwayomi/.local/share/Tachidesk
+              name: tachidesk-claim0
+      volumes:
+        - name: tachidesk-claim0
+          persistentVolumeClaim:
+            claimName: tachidesk-claim0

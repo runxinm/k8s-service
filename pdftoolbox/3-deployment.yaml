@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pdftoolbox
+  namespace: pdftoolbox
+  labels:
+    app: pdftoolbox
+spec:
+  selector:
+    matchLabels:
+      app: pdftoolbox
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pdftoolbox
+    spec:
+      containers:
+        - image: mrlee326/pdftoolbox
+          imagePullPolicy: IfNotPresent
+          name: pdftoolbox
+          resources: 
+            requests:
+              memory: "128Mi"
+              cpu: "256m"
+            limits:
+              memory: "1024Mi"
+              cpu: "512m"          
+          ports:
+            - containerPort: 8082
+              name: pdftoolbox
+          volumeMounts:
+            - mountPath: /opt/pdftoolbox/input
+              name: pdftoolbox-claim0
+            - mountPath: /opt/pdftoolbox/output
+              name: pdftoolbox-claim0              
+      volumes:
+        - name: pdftoolbox-claim0
+          persistentVolumeClaim:
+            claimName: pdftoolbox-claim0
