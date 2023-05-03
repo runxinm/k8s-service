@@ -1,28 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: mysql-service
   namespace: mysql
   labels:
     app: mysql
 spec:
   ports:
-  - name: mysql
-    port: 3306
-  clusterIP: None
+  - targetPort: 3306 # pod中的
+    port: 3306 # service的
+    nodePort: 31005
+  type: NodePort
   selector:
-    app: mysql
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql-read
-  namespace: mysql
-  labels:
-    app: mysql
-spec:
-  ports:
-  - name: mysql
-    port: 3306
-  selector:
-    app: mysql
+     app: mysql

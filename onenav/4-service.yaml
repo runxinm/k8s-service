@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: onenav-service
+  namespace: onenav
+  labels:
+    app: onenav
+spec:
+  ports:
+  - targetPort: 80 # pod中的
+    port: 80 # service的
+    nodePort: 41021
+  type: NodePort
+  selector:
+     app: onenav

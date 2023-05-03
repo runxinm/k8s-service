@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: mysql
+  labels:
+    app: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - image: mysql:5.7
+          imagePullPolicy: IfNotPresent
+          name: mysql
+          resources: 
+            requests:
+              memory: "512Mi"
+              cpu: "512m"
+            limits:
+              memory: "1024Mi"
+              cpu: "512m"        
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: password          
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-claim0
+      volumes:
+        - name: mysql-claim0
+          persistentVolumeClaim:
+            claimName: mysql-claim0

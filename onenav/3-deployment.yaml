@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: onenav
+  namespace: onenav
+  labels:
+    app: onenav
+spec:
+  selector:
+    matchLabels:
+      app: onenav
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: onenav
+    spec:
+      containers:
+        - image: helloz/onenav
+          imagePullPolicy: IfNotPresent
+          name: onenav
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "256m"
+            limits:
+              memory: "2048Mi"
+              cpu: "2048m"          
+          ports:
+            - containerPort: 80
+              name: onenav
+          volumeMounts:
+            - mountPath: /data/wwwroot/default/data
+              name: onenav-claim0
+      volumes:
+        - name: onenav-claim0
+          persistentVolumeClaim:
+            claimName: onenav-claim0
