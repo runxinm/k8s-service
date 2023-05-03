@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lingva
+  namespace: lingva
+  labels:
+    app: lingva
+spec:
+  selector:
+    matchLabels:
+      app: lingva
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lingva
+    spec:
+      containers:
+        - image: thedaviddelta/lingva-translate:latest
+          imagePullPolicy: IfNotPresent
+          name: lingva
+          resources: 
+            requests:
+              memory: "2048Mi"
+              cpu: "2048m"
+            limits:
+              memory: "2048Mi"
+              cpu: "2048m"          
+          ports:
+            - containerPort: 3000
+              name: lingva
+          env:
+            - name: site_domain
+              value: "10.160.100.101"
+            - name: force_default_theme
+              value: "light"
+            - name: default_source_lang
+              value: "auto"
+            - name: default_target_lang
+              value: "zh"             

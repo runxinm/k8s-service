@@ -69,6 +69,10 @@ docker镜像
   - 单机模式的redis
   - redis-cli -h 10.160.100.101 -p 31004
   - auth password
+- [mysql](./mysql/)
+  - 31005
+  - mysql
+  - mysql -h 10.160.100.101 -P 31005 -u root -p
 
 - [cluster-ingress](./cluster-ingress/)
   - 30080/30443
@@ -157,14 +161,14 @@ docker镜像
   - 41020
   - web监控,网站和应用程序状态
   - ns:statping
-- []()
-  - 4102
-  - 1
-  - ns:
-- []()
-  - 4102
-  - 1
-  - ns:
+- [onenav](./onenav/)
+  - 41021
+  - 书签
+  - ns:onenav
+- [lingva](./lingva/)
+  - 41022
+  - 谷歌翻译的替代前端(不好用)
+  - ns:lingva
 - []()
   - 4102
   - 1

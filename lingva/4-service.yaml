@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lingva-service
+  namespace: lingva
+  labels:
+    app: lingva
+spec:
+  ports:
+  - targetPort: 3000 # pod中的
+    port: 3000 # service的
+    nodePort: 41022
+  type: NodePort
+  selector:
+     app: lingva
