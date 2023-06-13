@@ -1,3 +1,5 @@
+
+
 # 介绍
 一些可以基于k8s部署的项目。
 来源：
@@ -36,6 +38,10 @@ docker镜像
 - 3-创建 service(clusterIP或者headless类型)
 - 4-创建 Ingress(指定ingressclass名称和规则)
 - 测试应用是否部署成功
+
+# k8s安装
+[1.22 版本一键安装脚本](./install.sh)
+
 
 # k8s-service-List(Done)
 
@@ -167,7 +173,7 @@ docker镜像
   - ns:onenav
 - [lingva](./lingva/)
   - 41022
-  - 谷歌翻译的替代前端(不好用)
+  - 谷歌翻译的替代前端
   - ns:lingva
 - []()
   - 4102
